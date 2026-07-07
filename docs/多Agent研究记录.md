@@ -116,4 +116,26 @@
 
 ## Lane D：金监总局 / 上位法 / 数据安全等
 
-状态：子 Agent 上下文溢出失败。该 lane 改由主 Agent 后续本地补做。
+状态：原子 Agent 上下文溢出失败；已重新派出短上下文子 Agent，但本轮未及时返回。主 Agent 已先做入口级补充。
+
+已确认入口：
+
+- 国家金融监督管理总局首页：https://www.nfra.gov.cn/cn/view/pages/index/index.html
+- 国家金融监督管理总局首页脚本：https://www.nfra.gov.cn/cn/js/index/index.js?v=20200108
+- 国家法律法规数据库：https://flk.npc.gov.cn/
+
+已定位抓取方式：
+
+- 金监总局首页为 Angular 动态站，页面直接显示“政策法规、政策解读、征求意见、政府信息公开”等栏目。
+- 首页脚本中可见核心接口模式：
+  - `/DocInfo/SelectItemAndDocByItemUUId`
+  - `/DocInfo/SelectItemAndDocByItemPId`
+  - `/item/getWebMenuItem`
+  - 详情页：`/cn/view/pages/ItemDetail.html?docId={{docId}}&itemId={{itemId}}`
+  - 政府信息公开详情页：`/cn/view/pages/governmentDetail.html?docId={{docId}}&itemId={{itemId}}&generaltype={{generaltype}}`
+
+未解决缺口：
+
+- 需要用接口调用补齐“政策法规”栏目下的银行、保险、信托、理财、商业银行衍生产品、代销、适当性等规则。
+- 需要映射原银保监会/原银监会/原保监会旧规则链接。
+- 国家法律法规数据库为动态站点，需要浏览器/API 抓取，优先补《期货和衍生品法》《证券法》《证券投资基金法》《信托法》《反洗钱法》《数据安全法》《个人信息保护法》《网络安全法》。

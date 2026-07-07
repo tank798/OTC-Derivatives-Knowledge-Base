@@ -71,12 +71,16 @@
       "publisher": "国家金融监督管理总局",
       "authority_level": "department_rule",
       "base_url": "https://www.nfra.gov.cn/",
-      "seed_urls": ["https://www.nfra.gov.cn/"],
+      "seed_urls": [
+        "https://www.nfra.gov.cn/",
+        "https://www.nfra.gov.cn/cn/view/pages/index/index.html",
+        "https://www.nfra.gov.cn/cn/js/index/index.js?v=20200108"
+      ],
       "allowed_domains": ["www.nfra.gov.cn", "nfra.gov.cn", "www.cbirc.gov.cn"],
       "asset_classes": ["fixed_income", "fund", "credit", "cash_management", "cross_asset"],
       "product_types": ["wealth_management", "trust_plan", "asset_management_plan", "bond", "repo", "derivative"],
       "include_keywords": ["银行", "保险", "信托", "理财", "衍生产品", "资管", "风险管理", "代销", "适当性"],
-      "crawl_notes": "需二轮确认稳定法规列表和原银保监会旧链接映射。"
+      "crawl_notes": "首页为 Angular 动态站；已定位接口模式 /DocInfo/SelectItemAndDocByItemUUId、/DocInfo/SelectItemAndDocByItemPId，详情页 ItemDetail.html?docId=...&itemId=...。需二轮写 API 抓取器并映射原银保监会旧规则。"
     },
     {
       "source_id": "sac",
