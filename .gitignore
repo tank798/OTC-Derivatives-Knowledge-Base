@@ -1,0 +1,16 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# Local crawl outputs can become very large. Keep generated indexes/wiki in Git,
+# but store raw regulatory archives locally unless Git LFS is introduced.
+data/raw/html/**
+data/raw/pdf/**
+data/raw/text/**
+logs/**
+
+!data/raw/html/.gitkeep
+!data/raw/pdf/.gitkeep
+!data/raw/text/.gitkeep
+!logs/.gitkeep
+
