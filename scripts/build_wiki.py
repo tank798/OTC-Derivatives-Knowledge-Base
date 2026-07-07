@@ -32,6 +32,7 @@ def md_link(title: str, url: str) -> str:
 
 
 def write_home(docs_count: int, clauses_count: int, gaps_count: int) -> None:
+    evidence_count = sum(1 for _ in iter_jsonl(PROCESSED / "evidence_ledger.jsonl"))
     text = f"""# 金融监管法规知识库
 
 更新时间：2026-07-07
@@ -40,12 +41,14 @@ def write_home(docs_count: int, clauses_count: int, gaps_count: int) -> None:
 
 - 文档级索引：{docs_count} 条
 - 条款级切片：{clauses_count} 条
+- 已核验证据：{evidence_count} 条
 - 待处理缺口：{gaps_count} 条
 
 ## 入口
 
 - [[监管源地图]]
 - [[法规条目索引]]
+- [[已核验证据账本]]
 - [[条款级知识库说明]]
 - [[场外衍生品合规检索框架]]
 - [[抓取缺口清单]]
@@ -93,6 +96,31 @@ def write_docs_index(docs: list) -> None:
             )
         lines.append("")
     (WIKI / "法规条目索引.md").write_text("\n".join(lines), encoding="utf-8")
+
+
+def write_evidence_ledger(evidence: list) -> None:
+    by_source = collections.defaultdict(list)
+    for row in evidence:
+        by_source[row.get("source_id", "unknown")].append(row)
+
+    lines = ["# 已核验证据账本", "", "这些条目来自官方源，并已区分正文、公告、附件是否核验。", ""]
+    for source_id in sorted(by_source):
+        lines.extend([f"## {source_id}", "", "| 文件 | 发布/生效 | 核验状态 | 关键标签 | 原文 |", "|---|---|---|---|---|"])
+        for row in sorted(by_source[source_id], key=lambda r: (r.get("published_at") or "", r.get("title") or ""), reverse=True):
+            date = row.get("published_at") or ""
+            if row.get("effective_at"):
+                date += f" / {row.get('effective_at')}"
+            lines.append(
+                "| {title} | {date} | {status} | {tags} | {url} |".format(
+                    title=(row.get("title") or "").replace("|", "/")[:120],
+                    date=date,
+                    status=row.get("verification_status") or "",
+                    tags=", ".join(row.get("tags", [])[:6]).replace("|", "/"),
+                    url=md_link("原文", row.get("url", "")),
+                )
+            )
+        lines.append("")
+    (WIKI / "已核验证据账本.md").write_text("\n".join(lines), encoding="utf-8")
 
 
 def write_clause_explainer(clauses_count: int) -> None:
@@ -184,17 +212,18 @@ def main() -> int:
     docs = list(iter_jsonl(PROCESSED / "documents.jsonl"))
     clauses = list(iter_jsonl(PROCESSED / "clauses.jsonl"))
     gaps = list(iter_jsonl(PROCESSED / "gaps.jsonl"))
+    evidence = list(iter_jsonl(PROCESSED / "evidence_ledger.jsonl"))
 
     write_home(len(docs), len(clauses), len(gaps))
     write_sources(registry)
     write_docs_index(docs)
+    write_evidence_ledger(evidence)
     write_clause_explainer(len(clauses))
     write_otc_framework()
     write_gaps(gaps)
-    print(f"wiki_pages=6 docs={len(docs)} clauses={len(clauses)} gaps={len(gaps)}")
+    print(f"wiki_pages=7 docs={len(docs)} clauses={len(clauses)} evidence={len(evidence)} gaps={len(gaps)}")
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

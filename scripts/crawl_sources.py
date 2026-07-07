@@ -182,9 +182,12 @@ def keyword_match(text: str, keywords: Iterable[str]) -> bool:
 def looks_like_document_url(url: str, anchor: str, keywords: Iterable[str]) -> bool:
     if url.lower().endswith(".pdf"):
         return True
-    if ARTICLE_URL_RE.search(url):
+    combined = f"{anchor} {url}"
+    if keyword_match(combined, keywords):
         return True
-    return keyword_match(anchor, keywords)
+    if not keywords and ARTICLE_URL_RE.search(url):
+        return True
+    return False
 
 
 def append_jsonl(path: Path, row: Dict) -> None:
@@ -276,7 +279,7 @@ def crawl_source(source: Dict, max_per_source: int, delay: float, fetch_details:
     for seed_url, _ in candidate_urls:
         try:
             data, content_type = request_url(seed_url)
-            seed_doc = save_page(source, seed_url, data, content_type, "目录页")
+            seed_doc = save_page(source, seed_url, data, content_type, "")
             if seed_url not in seen:
                 append_jsonl(documents_path, seed_doc)
                 seen.add(seed_url)
@@ -370,4 +373,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

@@ -1,0 +1,45 @@
+{
+  "finished_at": "2026-07-07T23:30:57+08:00",
+  "summary": [
+    {
+      "source_id": "csrc",
+      "saved": 20,
+      "gaps": 0
+    },
+    {
+      "source_id": "pbc_rules",
+      "saved": 20,
+      "gaps": 0
+    },
+    {
+      "source_id": "safe",
+      "saved": 20,
+      "gaps": 0
+    },
+    {
+      "source_id": "sac",
+      "saved": 20,
+      "gaps": 0
+    },
+    {
+      "source_id": "amac",
+      "saved": 20,
+      "gaps": 2
+    },
+    {
+      "source_id": "nafmii",
+      "saved": 20,
+      "gaps": 0
+    },
+    {
+      "source_id": "szse",
+      "saved": 20,
+      "gaps": 0
+    },
+    {
+      "source_id": "china_money",
+      "saved": 10,
+      "gaps": 0
+    }
+  ]
+}

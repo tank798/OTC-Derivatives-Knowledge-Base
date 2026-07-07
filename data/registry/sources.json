@@ -21,7 +21,10 @@
       "seed_urls": [
         "https://www.csrc.gov.cn/",
         "https://www.csrc.gov.cn/csrc/c100028/c7632835/content.shtml",
-        "https://www.csrc.gov.cn/csrc/c101953/c7632837/content.shtml"
+        "https://www.csrc.gov.cn/csrc/c101953/c7632837/content.shtml",
+        "https://neris.csrc.gov.cn/falvfagui/",
+        "https://neris.csrc.gov.cn/falvfagui/multipleFindController/indexJsp",
+        "https://neris.csrc.gov.cn/falvfagui/classifyController/indexJsp"
       ],
       "allowed_domains": ["www.csrc.gov.cn", "csrc.gov.cn", "neris.csrc.gov.cn"],
       "asset_classes": ["equity", "fixed_income", "fund", "commodity", "cross_asset"],
@@ -34,7 +37,11 @@
       "publisher": "中国人民银行",
       "authority_level": "department_rule",
       "base_url": "https://www.pbc.gov.cn/",
-      "seed_urls": ["https://www.pbc.gov.cn/tiaofasi/144941/144957/index.html"],
+      "seed_urls": [
+        "https://www.pbc.gov.cn/tiaofasi/144941/144957/index.html",
+        "https://www.pbc.gov.cn/tiaofasi/144941/144957/2025122610045251946/index.html",
+        "https://www.pbc.gov.cn/tiaofasi/144941/144957/2025120610050660916/index.html"
+      ],
       "allowed_domains": ["www.pbc.gov.cn", "pbc.gov.cn"],
       "asset_classes": ["fixed_income", "fx", "credit", "cash_management", "cross_asset"],
       "product_types": ["bond", "repo", "fx_derivative", "swap", "forward", "crm"],
@@ -46,7 +53,13 @@
       "publisher": "国家外汇管理局",
       "authority_level": "department_rule",
       "base_url": "https://www.safe.gov.cn/",
-      "seed_urls": ["https://www.safe.gov.cn/safe/zcfg/index.html"],
+      "seed_urls": [
+        "https://www.safe.gov.cn/safe/zcfg/index.html",
+        "https://www.safe.gov.cn/safe/2025/1226/26955.html",
+        "https://www.safe.gov.cn/safe/2024/0726/24815.html",
+        "https://www.safe.gov.cn/safe/2025/0926/26603.html",
+        "https://www.safe.gov.cn/safe/2025/0915/26538.html"
+      ],
       "allowed_domains": ["www.safe.gov.cn", "safe.gov.cn"],
       "asset_classes": ["fx", "fixed_income", "equity", "fund", "cross_asset"],
       "product_types": ["fx_derivative", "forward", "swap", "cross_border", "bond", "public_fund", "private_fund"],
@@ -70,7 +83,16 @@
       "publisher": "中国证券业协会",
       "authority_level": "self_regulatory_rule",
       "base_url": "https://www.sac.net.cn/",
-      "seed_urls": ["https://www.sac.net.cn/"],
+      "seed_urls": [
+        "https://www.sac.net.cn/",
+        "https://www.sac.net.cn/zlgl/zlgz/",
+        "https://www.sac.net.cn/flfg/zlgz/202112/t20211206_32523.html",
+        "https://www.sac.net.cn/flfg/zlgz/202410/t20241028_66045.html",
+        "https://www.sac.net.cn/zlgl/zlgz/202601/t20260112_80742.html",
+        "https://www.sac.net.cn/zlgl/zlgz/202512/t20251231_69827.html",
+        "https://www.sac.net.cn/was5/web/search?channelid=228163&searchword=%E5%9C%BA%E5%A4%96%E6%9C%9F%E6%9D%83",
+        "https://www.sac.net.cn/was5/web/search?channelid=228163&searchword=%E6%94%B6%E7%9B%8A%E5%87%AD%E8%AF%81"
+      ],
       "allowed_domains": ["www.sac.net.cn", "sac.net.cn"],
       "asset_classes": ["equity", "fixed_income", "fund", "cross_asset"],
       "product_types": ["otc_derivative", "non_standard_option", "income_certificate", "bond", "repo", "margin_financing_securities_lending"],
@@ -82,7 +104,13 @@
       "publisher": "中国证券投资基金业协会",
       "authority_level": "self_regulatory_rule",
       "base_url": "https://www.amac.org.cn/",
-      "seed_urls": ["https://www.amac.org.cn/", "https://fg.amac.org.cn/"],
+      "seed_urls": [
+        "https://www.amac.org.cn/",
+        "https://fg.amac.org.cn/",
+        "https://www.amac.org.cn/xwfb/xhyw/202606/t20260612_27826.html",
+        "https://www.amac.org.cn/xwfb/xhyw/202606/t20260610_27808.html",
+        "https://www.amac.org.cn/xwfb/xhyw/202606/t20260612_27828.html"
+      ],
       "allowed_domains": ["www.amac.org.cn", "amac.org.cn", "fg.amac.org.cn"],
       "asset_classes": ["fund", "equity", "fixed_income", "cross_asset"],
       "product_types": ["private_fund", "public_fund", "asset_management_plan", "etf", "reit"],
@@ -94,7 +122,18 @@
       "publisher": "中国银行间市场交易商协会",
       "authority_level": "self_regulatory_rule",
       "base_url": "https://www.nafmii.org.cn/",
-      "seed_urls": ["https://www.nafmii.org.cn/"],
+      "seed_urls": [
+        "https://www.nafmii.org.cn/",
+        "https://www.nafmii.org.cn/zlgl/zlgz/",
+        "https://www.nafmii.org.cn/zlgl/zlgz/jygfl/zqjyl/",
+        "https://www.nafmii.org.cn/zlgl/zlgz/jygfl/yspywl/",
+        "https://www.nafmii.org.cn/zlgl/bzxy/bzxywb/",
+        "https://www.nafmii.org.cn/zlgl/bzxy/bzxywb/jrys/",
+        "https://www.nafmii.org.cn/cpxl/xyfxhsgjcrm/ywgz/",
+        "https://www.nafmii.org.cn/ggtz/gg/202506/t20250627_322572.html",
+        "https://www.nafmii.org.cn/zlgl/bzxy/bzxywb/jrys/202404/t20240408_317592.html",
+        "https://www.nafmii.org.cn/ggtz/gg/202512/t20251231_324518.html"
+      ],
       "allowed_domains": ["www.nafmii.org.cn", "nafmii.org.cn"],
       "asset_classes": ["fixed_income", "credit", "fx", "cross_asset"],
       "product_types": ["bond", "abs", "crm", "cds", "swap", "forward", "repo"],
@@ -106,7 +145,13 @@
       "publisher": "深圳证券交易所",
       "authority_level": "exchange_rule",
       "base_url": "https://www.szse.cn/",
-      "seed_urls": ["https://www.szse.cn/lawrules/"],
+      "seed_urls": [
+        "https://www.szse.cn/lawrules/",
+        "https://www.szse.cn/lawrules/rule/trade/current/t20260424_620190.html",
+        "https://www.szse.cn/lawrules/rule/stock/trade/t20230217_598777.html",
+        "https://www.szse.cn/lawrules/rule/bond/abs/t20241220_611266.html",
+        "https://www.szse.cn/disclosure/notice/general/t20191207_572477.html"
+      ],
       "allowed_domains": ["www.szse.cn", "szse.cn"],
       "asset_classes": ["equity", "fixed_income", "fund", "cross_asset"],
       "product_types": ["etf", "reit", "bond", "abs", "repo", "listed_option", "margin_financing_securities_lending", "stock_pledge_repo"],
@@ -118,55 +163,126 @@
       "publisher": "上海证券交易所",
       "authority_level": "exchange_rule",
       "base_url": "https://www.sse.com.cn/",
-      "seed_urls": ["https://www.sse.com.cn/lawandrules/"],
+      "seed_urls": [
+        "https://www.sse.com.cn/lawandrules/sselawsrules2025/overview/",
+        "https://www.sse.com.cn/js/common/ssesuggestdata/sselawsrules_tablemap.js"
+      ],
       "allowed_domains": ["www.sse.com.cn", "sse.com.cn"],
       "asset_classes": ["equity", "fixed_income", "fund", "cross_asset"],
       "product_types": ["etf", "reit", "bond", "abs", "repo", "listed_option", "margin_financing_securities_lending", "stock_pledge_repo"],
       "include_keywords": ["业务规则", "股票", "债券", "基金", "期权", "融资融券", "回购", "资产支持证券"],
-      "crawl_notes": "curl 第一轮遇到 403，需浏览器/UA 或接口二轮处理。"
+      "crawl_notes": "规则总览和规则树已确认；老入口 /lawandrules/ 403，搜索 API query.sse.com.cn 参数需二轮调试。"
     },
     {
       "source_id": "bse",
       "publisher": "北京证券交易所",
       "authority_level": "exchange_rule",
       "base_url": "https://www.bse.cn/",
-      "seed_urls": ["https://www.bse.cn/rules/"],
+      "seed_urls": ["https://www.bse.cn/rules.html"],
       "allowed_domains": ["www.bse.cn", "bse.cn"],
       "asset_classes": ["equity", "fund", "fixed_income"],
       "product_types": ["equity_trading", "margin_financing_securities_lending", "bond"],
       "include_keywords": ["业务规则", "股票", "债券", "基金", "交易", "适当性"],
-      "crawl_notes": "curl 第一轮遇到 403，需浏览器/UA 或接口二轮处理。"
+      "crawl_notes": "规则入口确认；HTTPS 规则页存在 403/WAF，需浏览器/API 二轮处理。"
     },
     {
       "source_id": "cffex",
       "publisher": "中国金融期货交易所",
       "authority_level": "exchange_rule",
-      "base_url": "https://www.cffex.com.cn/",
-      "seed_urls": ["https://www.cffex.com.cn/flfg/"],
+      "base_url": "http://www.cffex.com.cn/",
+      "seed_urls": [
+        "http://www.cffex.com.cn/ywgz/",
+        "http://www.cffex.com.cn/cn/zgjrqhjysjygz.html",
+        "http://www.cffex.com.cn/cn/zgjrqhjysjyxz.html",
+        "http://www.cffex.com.cn/cn/zgjrqhjysjsxz.html",
+        "http://www.cffex.com.cn/cn/zgjrqhjysgzqhhyqzxjyxz.html"
+      ],
       "allowed_domains": ["www.cffex.com.cn", "cffex.com.cn"],
       "asset_classes": ["equity", "fixed_income", "cross_asset"],
       "product_types": ["futures", "listed_option"],
       "include_keywords": ["交易规则", "股指期货", "国债期货", "期权", "结算", "风险控制"],
-      "crawl_notes": "curl 第一轮遇到 TLS/连接问题，需二轮处理。"
+      "crawl_notes": "HTTPS TLS 异常；HTTP 静态页可抓。建议用 http://www.cffex.com.cn/ywgz/ 及具体正文页。"
     },
     {
       "source_id": "shfe",
       "publisher": "上海期货交易所",
       "authority_level": "exchange_rule",
       "base_url": "https://www.shfe.com.cn/",
-      "seed_urls": ["https://www.shfe.com.cn/lawandrules/"],
+      "seed_urls": ["https://www.shfe.com.cn/rules/"],
       "allowed_domains": ["www.shfe.com.cn", "shfe.com.cn"],
       "asset_classes": ["commodity"],
       "product_types": ["futures", "listed_option"],
       "include_keywords": ["业务规则", "交易", "结算", "交割", "风险控制", "期权"],
-      "crawl_notes": "期货规则源，供跨资产结构设计参考。"
+      "crawl_notes": "SafeLine WAF/JS challenge，正文需浏览器处理；供跨资产结构设计参考。"
+    },
+    {
+      "source_id": "ine",
+      "publisher": "上海国际能源交易中心",
+      "authority_level": "exchange_rule",
+      "base_url": "https://www.ine.cn/",
+      "seed_urls": ["https://www.ine.cn/rules/"],
+      "allowed_domains": ["www.ine.cn", "ine.cn"],
+      "asset_classes": ["commodity"],
+      "product_types": ["futures", "listed_option"],
+      "include_keywords": ["业务规则", "交易", "结算", "交割", "风险控制", "期权"],
+      "crawl_notes": "SafeLine WAF/JS challenge，正文需浏览器处理。"
+    },
+    {
+      "source_id": "dce",
+      "publisher": "大连商品交易所",
+      "authority_level": "exchange_rule",
+      "base_url": "http://www.dce.com.cn/",
+      "seed_urls": ["http://www.dce.com.cn/"],
+      "allowed_domains": ["www.dce.com.cn", "dce.com.cn"],
+      "asset_classes": ["commodity"],
+      "product_types": ["futures", "listed_option"],
+      "include_keywords": ["业务规则", "交易", "结算", "交割", "风险管理", "期权"],
+      "crawl_notes": "入口确认；规则路径需浏览器二轮核验，部分页面存在反爬 JS。"
+    },
+    {
+      "source_id": "czce",
+      "publisher": "郑州商品交易所",
+      "authority_level": "exchange_rule",
+      "base_url": "https://www.czce.com.cn/",
+      "seed_urls": [
+        "https://www.czce.com.cn/cn/flfg/H077005index_1.htm",
+        "https://www.czce.com.cn/cn/flfg/zcjywgz/zcjjygz/webinfo/2024/02/1708568063934491.htm",
+        "https://www.czce.com.cn/cn/flfg/zcjywgz/ywbf/webinfo/2025/01/1726400032482434.htm",
+        "https://www.czce.com.cn/cn/flfg/zcjywgz/ywbf/webinfo/2024/11/1726396482907721.htm",
+        "https://www.czce.com.cn/cn/flfg/zcjywgz/ywbf/webinfo/2023/04/1684183719758137.htm"
+      ],
+      "allowed_domains": ["www.czce.com.cn", "czce.com.cn"],
+      "asset_classes": ["commodity"],
+      "product_types": ["futures", "listed_option"],
+      "include_keywords": ["交易规则", "期货结算", "期权交易", "期货交易", "业务办法", "品种细则"],
+      "crawl_notes": "静态目录可抓；含章程及交易规则、业务办法、品种细则、历史版本。"
+    },
+    {
+      "source_id": "gfex",
+      "publisher": "广州期货交易所",
+      "authority_level": "exchange_rule",
+      "base_url": "https://www.gfex.com.cn/",
+      "seed_urls": ["https://www.gfex.com.cn/"],
+      "allowed_domains": ["www.gfex.com.cn", "gfex.com.cn"],
+      "asset_classes": ["commodity"],
+      "product_types": ["futures", "listed_option"],
+      "include_keywords": ["业务规则", "交易", "结算", "交割", "风险管理", "期权"],
+      "crawl_notes": "入口确认；EO-Bot-Js-Token 和 HTTPS 证书异常，需浏览器二轮处理。"
     },
     {
       "source_id": "china_money",
       "publisher": "中国外汇交易中心暨全国银行间同业拆借中心/中国货币网",
       "authority_level": "business_guideline",
       "base_url": "https://www.chinamoney.com.cn/",
-      "seed_urls": ["https://www.chinamoney.com.cn/chinese/bkccpr/"],
+      "seed_urls": [
+        "https://www.chinamoney.com.cn/chinese/bkccpr/",
+        "https://www.chinamoney.com.cn/chinese/zcfg/",
+        "https://www.chinamoney.com.cn/chinese/whywgz/",
+        "https://www.chinamoney.com.cn/chinese/bbywgz/",
+        "https://www.chinamoney.com.cn/chinese/bbyspscdwkf/20230428/2617455.html",
+        "https://www.chinamoney.com.cn/chinese/bbzqscjbgz/20260403/3309686.html",
+        "https://www.chinamoney.com.cn/chinese/bbyspscllhh/20231124/2779727.html"
+      ],
       "allowed_domains": ["www.chinamoney.com.cn", "chinamoney.com.cn"],
       "asset_classes": ["fixed_income", "fx", "credit"],
       "product_types": ["bond", "repo", "fx_derivative", "swap", "forward", "cds"],
@@ -178,37 +294,50 @@
       "publisher": "中国证券登记结算有限责任公司",
       "authority_level": "business_guideline",
       "base_url": "https://www.chinaclear.cn/",
-      "seed_urls": ["https://www.chinaclear.cn/"],
+      "seed_urls": [
+        "https://www.chinaclear.cn/",
+        "https://www.chinaclear.cn/zdjs/flfg/law.shtml",
+        "https://www.chinaclear.cn/zdjs/gszb/202607/4ec020260eb448a7868ca1f8cc885d5c.shtml"
+      ],
       "allowed_domains": ["www.chinaclear.cn", "chinaclear.cn"],
       "asset_classes": ["equity", "fixed_income", "fund"],
       "product_types": ["clearing_settlement", "etf", "bond", "repo", "margin_financing_securities_lending"],
       "include_keywords": ["业务规则", "登记", "结算", "清算", "担保品", "融资融券", "转融通"],
-      "crawl_notes": "需二轮定位业务规则稳定目录。"
+      "crawl_notes": "法律规则目录可抓；覆盖账户、登记存管、清算交收、债券、股票期权、融资融券与转融通、基金资管。"
     },
     {
       "source_id": "chinabond",
       "publisher": "中央国债登记结算有限责任公司",
       "authority_level": "business_guideline",
       "base_url": "https://www.chinabond.com.cn/",
-      "seed_urls": ["https://www.chinabond.com.cn/"],
+      "seed_urls": [
+        "https://www.chinabond.com.cn/",
+        "https://www.chinabond.com.cn/sczy/sczy_ywwj/ywwj_ywgz/"
+      ],
       "allowed_domains": ["www.chinabond.com.cn", "chinabond.com.cn"],
       "asset_classes": ["fixed_income"],
       "product_types": ["bond", "repo", "clearing_settlement"],
       "include_keywords": ["业务规则", "托管", "结算", "估值", "担保品", "债券"],
-      "crawl_notes": "需二轮定位业务规则稳定目录。"
+      "crawl_notes": "业务规则入口已确认；目录重定向和栏目命名混杂，本轮正文未核验。"
     },
     {
       "source_id": "shclearing",
       "publisher": "银行间市场清算所股份有限公司",
       "authority_level": "business_guideline",
       "base_url": "https://www.shclearing.com.cn/",
-      "seed_urls": ["https://www.shclearing.com.cn/"],
+      "seed_urls": [
+        "https://www.shclearing.com.cn/",
+        "https://www.shclearing.com.cn/cpyyw/gzzn/ywgz/",
+        "https://www.shclearing.com.cn/cpyyw/gzzn/ywgz/202509/t20250926_1653420.html",
+        "https://www.shclearing.com.cn/cpyyw/gzzn/ywgz/202504/t20250425_1577590.html",
+        "https://www.shclearing.com.cn/cpyyw/gzzn/ywgz/202404/t20240410_1396424.html",
+        "https://www.shclearing.com.cn/cpyyw/fxgl/fktx/202412/t20241226_1527313.html"
+      ],
       "allowed_domains": ["www.shclearing.com.cn", "shclearing.com.cn"],
       "asset_classes": ["fixed_income", "fx", "credit"],
       "product_types": ["clearing_settlement", "crm", "cds", "swap", "bond"],
       "include_keywords": ["业务规则", "清算", "结算", "信用风险缓释", "中央对手", "债券"],
-      "crawl_notes": "需二轮定位规则和业务指南。"
+      "crawl_notes": "规则指南-业务规则静态列表可抓，约 45 条；含业务规则、操作指南、收费、风险管理。"
     }
   ]
 }
-
