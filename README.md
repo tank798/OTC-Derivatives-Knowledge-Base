@@ -19,7 +19,8 @@
 
 ```bash
 python3 scripts/crawl_sources.py --registry data/registry/sources.json --max-per-source 30
-python3 scripts/segment_clauses.py --documents data/processed/documents.jsonl --out data/processed/clauses.jsonl
+python3 scripts/build_regulatory_corpus.py
+python3 scripts/segment_clauses.py --documents data/processed/regulatory_documents.jsonl --out data/processed/clauses.jsonl
 python3 scripts/build_wiki.py
 ```
 
@@ -32,4 +33,3 @@ python3 scripts/build_wiki.py
 3. 场外衍生品判断必须优先命中上位法、证监会规章、自律规则、交易场所/登记结算/银行间基础设施规则。
 4. 条款级回答必须输出来源文件名、条号、原始链接和检索日期。
 5. 无法抓取正文的源不伪装成已覆盖，进入 `data/processed/gaps.jsonl`。
-

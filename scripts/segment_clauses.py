@@ -125,7 +125,10 @@ def build_clauses(doc: Dict) -> List[Dict]:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--documents", default=str(ROOT / "data" / "processed" / "documents.jsonl"))
+    default_documents = ROOT / "data" / "processed" / "regulatory_documents.jsonl"
+    if not default_documents.exists():
+        default_documents = ROOT / "data" / "processed" / "documents.jsonl"
+    parser.add_argument("--documents", default=str(default_documents))
     parser.add_argument("--out", default=str(ROOT / "data" / "processed" / "clauses.jsonl"))
     args = parser.parse_args()
 
@@ -143,4 +146,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
