@@ -21,7 +21,7 @@ import sys
 import time
 from typing import Dict, Iterable, List, Optional, Tuple
 from urllib.error import HTTPError, URLError
-from urllib.parse import urljoin, urlparse
+from urllib.parse import quote, urljoin, urlparse, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 
 
@@ -37,7 +37,7 @@ USER_AGENT = (
     "FinancialRegulationKnowledgeBase/0.1"
 )
 
-DATE_RE = re.compile(r"(20\d{2})[-年./](0?[1-9]|1[0-2])[-月./](0?[1-9]|[12]\d|3[01])")
+DATE_RE = re.compile(r"(20\d{2})[-年./](0?[1-9]|1[0-2])[-月./](3[01]|[12]\d|0?[1-9])")
 TITLE_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.I | re.S)
 ARTICLE_URL_RE = re.compile(r"(content\.shtml|/content_\d+|/t\d{8}_\d+|\.html?$)", re.I)
 
@@ -116,6 +116,7 @@ def ensure_dirs() -> None:
 
 
 def request_url(url: str, timeout: int = 30) -> Tuple[bytes, str]:
+    url = normalize_url_for_request(url)
     req = Request(
         url,
         headers={
@@ -127,6 +128,15 @@ def request_url(url: str, timeout: int = 30) -> Tuple[bytes, str]:
     with urlopen(req, timeout=timeout) as resp:
         content_type = resp.headers.get("Content-Type", "")
         return resp.read(), content_type
+
+
+def normalize_url_for_request(url: str) -> str:
+    """Convert an IRI URL discovered on Chinese sites into an ASCII URI."""
+    parts = urlsplit(url)
+    path = quote(parts.path, safe="/%:@")
+    query = quote(parts.query, safe="=&%:/?+@,;")
+    fragment = quote(parts.fragment, safe="=&%:/?+@,;")
+    return urlunsplit((parts.scheme, parts.netloc, path, query, fragment))
 
 
 def decode_html(data: bytes, content_type: str = "") -> str:

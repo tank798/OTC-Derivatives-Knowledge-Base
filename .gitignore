@@ -7,10 +7,11 @@ __pycache__/
 data/raw/html/**
 data/raw/pdf/**
 data/raw/text/**
+data/raw/files/**
 logs/**
 
 !data/raw/html/.gitkeep
 !data/raw/pdf/.gitkeep
 !data/raw/text/.gitkeep
+!data/raw/files/.gitkeep
 !logs/.gitkeep
-

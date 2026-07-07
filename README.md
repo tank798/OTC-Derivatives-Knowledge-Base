@@ -4,6 +4,15 @@
 
 本项目按“官方源注册表 -> 原文归档 -> 文档级索引 -> 条款级切片 -> Wiki 层 -> RAG 检索”的方式组织，不把“全量”理解为一次性手工清单。
 
+## 当前快照
+
+- 文档级索引：514 条
+- 监管语料：360 条
+- 条款级切片：2111 条
+- 已核验证据：41 条
+- 附件元数据：124 条
+- 待处理缺口：31 条
+
 ## 目录
 
 - `data/registry/`: 官方源注册表、分类体系、检索种子。
@@ -15,10 +24,17 @@
 - `scripts/`: 抓取、索引、条款切分、Wiki 生成脚本。
 - `docs/`: 项目规则、抓取策略和知识库设计说明。
 
+`data/raw/` 默认作为本地缓存，不提交大体积原始网页和附件；GitHub 中保留可检索的 `data/processed/`、Wiki 和可重跑脚本。若要长期保存全部原件，建议接 Git LFS。
+
 ## 快速运行
 
 ```bash
 python3 scripts/crawl_sources.py --registry data/registry/sources.json --max-per-source 30
+python3 scripts/crawl_chinamoney_api.py
+python3 scripts/crawl_nfra_api.py
+python3 scripts/extract_pdfs.py
+python3 scripts/extract_attachments.py
+python3 scripts/normalize_documents.py
 python3 scripts/build_regulatory_corpus.py
 python3 scripts/segment_clauses.py --documents data/processed/regulatory_documents.jsonl --out data/processed/clauses.jsonl
 python3 scripts/build_wiki.py
