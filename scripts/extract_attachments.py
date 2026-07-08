@@ -64,6 +64,16 @@ def extract_text(path: Path) -> Optional[str]:
     return None
 
 
+def is_html_error_page(path: Path) -> bool:
+    try:
+        head = path.read_bytes()[:4096].decode("utf-8", errors="ignore").lower()
+    except Exception:
+        return False
+    if "<html" not in head and "<!doctype html" not in head:
+        return False
+    return any(marker in head for marker in ["403", "访问错误", "forbidden", "request-id"])
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--min-chars", type=int, default=80)
@@ -75,6 +85,20 @@ def main() -> int:
     attachments = list(iter_jsonl(attachments_path))
     documents = {row["doc_id"]: row for row in iter_jsonl(documents_path)}
     gaps = list(iter_jsonl(gaps_path))
+    html_error_keys = {
+        (att.get("source_id"), att.get("attachment_id"), att.get("url"))
+        for att in attachments
+        if att.get("download_error") == "Downloaded HTML error page instead of attachment"
+    }
+    if html_error_keys:
+        gaps = [
+            row
+            for row in gaps
+            if not (
+                row.get("gap_type") == "attachment_extract_failed"
+                and (row.get("source_id"), row.get("doc_id"), row.get("url")) in html_error_keys
+            )
+        ]
     gap_keys = {gap_key(row) for row in gaps}
 
     ATT_TEXT.mkdir(parents=True, exist_ok=True)
@@ -87,6 +111,39 @@ def main() -> int:
         source_path = ROOT / local_path
         if not source_path.exists():
             continue
+        doc_id = f"attachment_{att['attachment_id']}"
+        if is_html_error_page(source_path):
+            failed += 1
+            att["text_extracted"] = False
+            att["downloaded"] = False
+            att["download_error"] = "Downloaded HTML error page instead of attachment"
+            att.pop("local_path", None)
+            att.pop("text_path", None)
+            att.pop("text_char_count", None)
+            documents.pop(doc_id, None)
+            gaps = [
+                row
+                for row in gaps
+                if not (
+                    row.get("gap_type") == "attachment_extract_failed"
+                    and row.get("source_id") == att.get("source_id")
+                    and row.get("doc_id") == att.get("attachment_id")
+                    and row.get("url") == att.get("url")
+                )
+            ]
+            gap_keys = {gap_key(row) for row in gaps}
+            gap = {
+                "source_id": att.get("source_id"),
+                "doc_id": att.get("attachment_id"),
+                "url": att.get("url"),
+                "gap_type": "attachment_download_html_error",
+                "reason": "Downloaded HTML error page instead of attachment",
+                "body_read": False,
+            }
+            if gap_key(gap) not in gap_keys:
+                gaps.append(gap)
+                gap_keys.add(gap_key(gap))
+            continue
         try:
             text = extract_text(source_path)
         except Exception as exc:
@@ -95,6 +152,9 @@ def main() -> int:
         if not text or len(text.strip()) < args.min_chars:
             failed += 1
             att["text_extracted"] = False
+            att.pop("text_path", None)
+            att.pop("text_char_count", None)
+            documents.pop(doc_id, None)
             gap = {
                 "source_id": att.get("source_id"),
                 "doc_id": att.get("attachment_id"),
@@ -115,7 +175,6 @@ def main() -> int:
         att["text_char_count"] = len(text)
         extracted += 1
 
-        doc_id = f"attachment_{att['attachment_id']}"
         documents[doc_id] = {
             "doc_id": doc_id,
             "source_id": att.get("source_id"),

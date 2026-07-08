@@ -279,7 +279,7 @@ def save_attachment(att: Dict, record: Dict, existing: Optional[Dict], download:
         return None
 
     priority = att.get("priority", "0")
-    url = f"{BASE}/dqs/cm-s-notice-query/fileDownLoad.do?contentId={record.get('contentId')}&priority={priority}"
+    url = f"{BASE}/dqs/cm-s-notice-query/fileDownLoad.do?mode=save&contentId={record.get('contentId')}&priority={priority}"
     suffix = Path(att_path).suffix or ("." + (record.get("suffix") or "bin"))
     file_id = f"china_money_{record['contentId']}_{priority}_{sha1(att_path)}"
     RAW_FILES.mkdir(parents=True, exist_ok=True)
