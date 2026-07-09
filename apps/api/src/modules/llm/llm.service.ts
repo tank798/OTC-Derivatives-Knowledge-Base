@@ -18,7 +18,7 @@ export class LlmService {
   constructor(private readonly configService: ConfigService) {
     this.apiKey = this.configService.get<string>("LLM_API_KEY") ?? null;
     this.baseURL = (this.configService.get<string>("LLM_BASE_URL") ?? "https://api.deepseek.com").replace(/\/$/, "");
-    this.model = this.configService.get<string>("LLM_MODEL") ?? "deepseek-chat";
+    this.model = this.configService.get<string>("LLM_MODEL") ?? "deepseek-v4-pro";
   }
 
   get isConfigured(): boolean {

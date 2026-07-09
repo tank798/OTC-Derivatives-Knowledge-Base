@@ -160,8 +160,8 @@ export class RetrievalService implements OnModuleInit {
         .join(" ");
       const baseScore = scoreText(searchText, terms);
       if (baseScore === 0) continue;
-      // Evidence gets a 3x boost
-      const score = baseScore * 3;
+      // Evidence gets a moderate boost over clauses
+      const score = baseScore * 1.5;
       results.push(this.evidenceToHit(ev, score, query));
     }
 
@@ -217,6 +217,19 @@ export class RetrievalService implements OnModuleInit {
     // Combine: evidence first, then clauses
     deduped.push(...evidenceHits, ...clauseHits);
     return deduped.slice(0, maxTotal);
+  }
+
+  /** Find a clause by partial title match (for article_no backfill). */
+  findClauseByTitle(titleKey: string): { articleNo: string; excerpt: string } | null {
+    const key = titleKey.toLowerCase();
+    for (const c of this.clauses) {
+      if (c.article_no && c.title?.toLowerCase().includes(key)) {
+        // Normalize: strip 第/条 prefix/suffix for consistent display
+        const normalized = c.article_no.replace(/^第/, "").replace(/条$/, "");
+        return { articleNo: normalized, excerpt: c.text.slice(0, 300) };
+      }
+    }
+    return null;
   }
 
   private authorityWeight(level?: string): number {

@@ -80,14 +80,12 @@ export class ComplianceService {
   ): Promise<ComplianceAnswer> {
     const agentPrompt = this.prompt.getComplianceAgentPrompt();
 
-    // Format hits for the prompt
+    // Format hits for prompt
     const hitsText = hits.length === 0
       ? "（未检索到相关法规条文。请如实告知用户，并建议人工合规复核。）"
       : hits.map((h, i) => {
-          const tags = [];
-          if (h.verificationStatus) tags.push(`核验状态: ${h.verificationStatus}`);
-          if (h.authorityLevel) tags.push(`效力层级: ${h.authorityLevel}`);
-          return `[${i + 1}] 来源: ${h.source} | 标题: ${h.title}
+          const art = h.articleNo ? ` **条号: ${h.articleNo}** |` : "";
+          return `[${i + 1}] 来源: ${h.source} |${art} 标题: ${h.title}
 发布机构: ${h.publisher} | 发布日期: ${h.publishedAt}
 效力层级: ${h.authorityLevel} | 核验状态: ${h.verificationStatus || "未核验"}
 链接: ${h.url}
@@ -106,21 +104,58 @@ export class ComplianceService {
 - 待补充: ${structure.missingInfo.join("、") || "无"}
 `;
 
-    const userPrompt = `## 用户问题
+    const userPrompt = `请严格按照以下格式回答合规问题。不可省略任何章节，不可用其他格式替代。
+
+## 用户问题
 ${query}
 
 ## 识别到的产品结构
 ${structureText}
 
-## 检索到的法规条文（共 ${hits.length} 条）
+## 检索到的法规条文（共 ${hits.length} 条，请基于这些内容回答，不得编造）
 ${hitsText}
 
-请根据以上检索结果和你的合规知识，按固定格式给出合规判断。如果检索结果不足，请如实说明并建议人工复核。`;
+请立即按以下模板输出（从"## 结论"开始）：
+## 结论
+[一句话判断]
+
+## 产品结构识别
+[列出已识别的产品要素]
+
+## 法规依据
+[逐条列出，每条格式：**《法规名》**（发布机构，日期）第X条：原文摘录 → 监管要求]
+
+## 限制条件
+[具体条件列表]
+
+## 待补充信息
+[缺少什么信息]
+
+## 人工复核提示
+[需要人工关注的风险点]`;
 
     const answerText = await this.llm.chat(agentPrompt, userPrompt, 120000);
 
     // Parse the answer into structured format
     return this.parseComplianceAnswer(answerText, structure, hits);
+  }
+
+  /** Fill empty article_no in regulatory basis by matching against all loaded clauses. */
+  private fillArticleNumbers(
+    basis: ComplianceAnswer["regulatoryBasis"],
+    _hits: RetrievalHit[],
+    retrieval: RetrievalService,
+  ): ComplianceAnswer["regulatoryBasis"] {
+    return basis.map((item) => {
+      if (item.articleNo) return item;
+      const fullTitle = item.title.replace(/[《》]/g, "");
+      const titleKey = fullTitle.slice(0, 15);
+      const match = retrieval.findClauseByTitle(titleKey);
+      if (match) {
+        return { ...item, articleNo: match.articleNo, excerpt: match.excerpt || item.excerpt };
+      }
+      return item;
+    });
   }
 
   private parseComplianceAnswer(
@@ -187,11 +222,14 @@ ${hitsText}
     const evidenceCount = hits.filter((h) => h.source === "evidence").length;
     const clauseCount = hits.filter((h) => h.source === "clause").length;
 
+    // Post-process: fill article_no from full clause library when empty
+    const filledBasis = this.fillArticleNumbers(regBasis, hits, this.retrieval);
+
     return {
       conclusion: rawConclusion,
       conclusionLabel,
       productStructure: structure,
-      regulatoryBasis: regBasis.length > 0 ? regBasis : hits.slice(0, 3).map((h) => ({
+      regulatoryBasis: filledBasis.length > 0 ? filledBasis : hits.slice(0, 3).map((h) => ({
         title: h.title,
         publisher: h.publisher,
         url: h.url,
