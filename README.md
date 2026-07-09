@@ -56,6 +56,66 @@ python3 scripts/build_wiki.py
 
 第一次运行建议先小批量抓取，确认每个监管源的页面结构和反爬状态，再扩大 `--max-per-source`。
 
+## 合规问答 Agent（P0 原型）
+
+基于现有知识库数据的本地 RAG 合规问答系统，可自动识别产品结构、检索法规依据、生成带引用的合规判断。
+
+### 快速开始
+
+```bash
+# 1. 安装依赖
+corepack enable pnpm
+corepack pnpm install
+
+# 2. 配置 API key
+cp apps/api/.env.example apps/api/.env
+# 编辑 apps/api/.env，填入 DeepSeek API key：
+#   LLM_API_KEY=sk-your-key-here
+#   LLM_BASE_URL=https://api.deepseek.com
+#   LLM_MODEL=deepseek-chat
+
+# 3. 启动后端（端口 4000）
+corepack pnpm dev:api
+
+# 4. 启动前端（端口 3000，新终端窗口）
+corepack pnpm dev:web
+```
+
+访问 http://localhost:3000，输入产品结构或合规问题即可。
+
+### 技术栈
+
+- Frontend: Next.js 15 + React 19 + Tailwind CSS
+- Backend: NestJS + 内存检索索引（77,494 条条款 + 41 条证据）
+- LLM: OpenAI-compatible API（默认 DeepSeek deepseek-chat）
+- Monorepo: pnpm workspace
+
+### 检索策略
+
+1. `evidence_ledger.jsonl`（41 条已核验证据，权重最高）
+2. `clauses.jsonl`（77,494 条条款切片，中文关键词扩展 + 效力层级加权）
+3. 优先返回法律/行政法规/部门规章，再补充自律规则
+
+### API 端点
+
+- `GET /api/compliance/health` — 健康检查 + 索引统计
+- `POST /api/compliance/query` — 合规问答
+
+### 回答格式
+
+所有回答遵循固定模板：结论 → 产品结构识别 → 法规依据（带链接）→ 限制条件 → 待补充信息 → 人工复核提示。
+
+### 目录结构
+
+```
+apps/
+  web/      Next.js 前端（工作台式 UI）
+  api/      NestJS 后端
+packages/
+  shared/   共享类型、schema
+  prompts/  Agent prompt 资产
+```
+
 ## 当前原则
 
 1. 只用官方源作为正式知识库依据；媒体、公众号、研报只能作为线索，不进入正式法规依据。

@@ -1,0 +1,11 @@
+{
+  "name": "otc-compliance-agent",
+  "private": true,
+  "packageManager": "pnpm@10.7.1",
+  "scripts": {
+    "dev:web": "corepack pnpm --filter web dev",
+    "dev:api": "corepack pnpm --filter api start:dev",
+    "build": "corepack pnpm -r build",
+    "lint": "corepack pnpm -r lint"
+  }
+}

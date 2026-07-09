@@ -20,3 +20,43 @@ logs/**
 !data/raw/files/manual_regulatory/
 !data/raw/files/manual_regulatory/**
 !logs/.gitkeep
+
+# Node.js / pnpm
+node_modules/
+.pnpm-store/
+
+# Next.js
+apps/web/.next/
+
+# NestJS dist
+apps/api/dist/
+dist/
+
+# Environment files (DO NOT COMMIT API KEYS)
+.env
+.env.local
+.env.*.local
+*.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+
+# Cache
+.cache/
+.nx/
+
+
+# Package build artifacts
+packages/*/src/*.js
+packages/*/src/*.d.ts
+packages/*/src/*.d.ts.map
+packages/*/src/*.js.map
+packages/*/dist/
+next-env.d.ts
+scripts/track_deepseek_usage.py
