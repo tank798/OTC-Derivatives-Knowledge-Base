@@ -6,12 +6,16 @@
 
 ## 当前快照
 
-- 文档级索引：514 条
-- 监管语料：360 条
-- 条款级切片：2111 条
+- 文档级索引：9373 条
+- 监管语料：9137 条
+- 条款级切片：77494 条
 - 已核验证据：41 条
 - 附件元数据：124 条
-- 待处理缺口：31 条
+- 待处理缺口：0 条
+- 已解决缺口：9 条
+- 手工补录官方 Word/PDF：29 个，已产出 2209 条条款切片
+
+已专项补齐：国家法律法规数据库 8 部上位法、CSRC NERIS 7291 条元数据与重点正文、AMAC 490 条规则、SSE 728 条规则/历史规则、BSE 272 条规则/法律规则正文、中国货币网 124 个附件全文、NFRA 官方接口正文、CZCE 部分 WAF 页面浏览器正文抽取，以及 DCE/GFEX/CZCE/CSRC/BSE 的手工官方 Word/PDF 缺口。当前项目内 `data/processed/gaps.jsonl` 为空，已解决缺口记录见 `data/processed/resolved_gaps.jsonl`。
 
 ## 目录
 
@@ -24,16 +28,26 @@
 - `scripts/`: 抓取、索引、条款切分、Wiki 生成脚本。
 - `docs/`: 项目规则、抓取策略和知识库设计说明。
 
-`data/raw/` 默认作为本地缓存，不提交大体积原始网页和附件；GitHub 中保留可检索的 `data/processed/`、Wiki 和可重跑脚本。若要长期保存全部原件，建议接 Git LFS。
+`data/raw/` 默认作为本地缓存，不提交大体积原始网页和附件；但 `data/raw/files/manual_regulatory/` 与 `data/raw/text/manual_regulatory/` 保存手工补录的官方原件和抽取文本，随仓库保留。`data/processed/clauses.jsonl` 体积较大，使用 Git LFS 跟踪。
 
 ## 快速运行
 
 ```bash
 python3 scripts/crawl_sources.py --registry data/registry/sources.json --max-per-source 30
+python3 scripts/crawl_npc_law_api.py
+python3 scripts/crawl_csrc_neris_api.py --workers 16 --detail-timeout 20
+python3 scripts/hydrate_csrc_neris_local.py --keyword 衍生品 --keyword 场外 --keyword 期权 --keyword 证券公司 --keyword 私募 --keyword 基金 --keyword 资产管理 --keyword 适当性 --keyword 债券 --keyword 回购 --keyword 期货
+python3 scripts/crawl_amac_policy_api.py --page-size 50 --max-pages 30
+python3 scripts/crawl_sse_rules.py --no-download-attachments
+python3 scripts/crawl_bse_rules_browser.py
 python3 scripts/crawl_chinamoney_api.py
 python3 scripts/crawl_nfra_api.py
 python3 scripts/extract_pdfs.py
+python3 scripts/retry_chinamoney_attachments.py --timeout 60
 python3 scripts/extract_attachments.py
+python3 scripts/ocr_pdf_gaps.py --min-chars 50
+python3 scripts/retry_csrc_neris_gaps.py --workers 4 --detail-timeout 90 --min-chars 50
+python3 scripts/import_manual_regulatory_files.py
 python3 scripts/normalize_documents.py
 python3 scripts/build_regulatory_corpus.py
 python3 scripts/segment_clauses.py --documents data/processed/regulatory_documents.jsonl --out data/processed/clauses.jsonl

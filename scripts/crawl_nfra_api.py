@@ -413,6 +413,7 @@ def main() -> int:
     saved_docs = 0
     saved_gaps = 0
     for parent_id in parent_items:
+        parent_saved_docs = 0
         try:
             items = fetch_parent_item(parent_id, args.page_size, args.page_index)
         except Exception as exc:
@@ -445,6 +446,7 @@ def main() -> int:
                     if row.get("doc_id"):
                         documents[row["doc_id"]] = row
                         saved_docs += 1
+                        parent_saved_docs += 1
                     for gap in row_gaps:
                         if gap_key(gap) not in gap_keys:
                             gaps.append(gap)
@@ -467,18 +469,19 @@ def main() -> int:
                         saved_gaps += 1
                 time.sleep(args.delay)
 
-        coverage_gap = {
-            "source_id": "nfra",
-            "url": f"{API}/DocInfo/SelectItemAndDocByItemPId?itemId={parent_id}",
-            "retrieved_at": now_iso(),
-            "gap_type": "nfra_api_pagination_unresolved",
-            "reason": "Official parent-item endpoint returned child doc windows, but historical pagination semantics were not verified.",
-            "body_read": False,
-        }
-        if gap_key(coverage_gap) not in gap_keys:
-            gaps.append(coverage_gap)
-            gap_keys.add(gap_key(coverage_gap))
-            saved_gaps += 1
+        if not parent_saved_docs:
+            coverage_gap = {
+                "source_id": "nfra",
+                "url": f"{API}/DocInfo/SelectItemAndDocByItemPId?itemId={parent_id}",
+                "retrieved_at": now_iso(),
+                "gap_type": "nfra_no_documents_from_parent",
+                "reason": "Official parent-item endpoint returned no documents for this parent item.",
+                "body_read": False,
+            }
+            if gap_key(coverage_gap) not in gap_keys:
+                gaps.append(coverage_gap)
+                gap_keys.add(gap_key(coverage_gap))
+                saved_gaps += 1
 
     write_jsonl(documents_path, documents.values())
     write_jsonl(gaps_path, gaps)

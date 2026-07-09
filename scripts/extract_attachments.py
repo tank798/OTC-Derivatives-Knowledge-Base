@@ -4,8 +4,13 @@
 import argparse
 import json
 from pathlib import Path
+import re
+import shutil
 import subprocess
+import tempfile
 from typing import Dict, Iterable, List, Optional
+import zipfile
+import xml.etree.ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,15 +38,68 @@ def gap_key(row: Dict) -> tuple:
     return (row.get("source_id"), row.get("doc_id"), row.get("url"), row.get("gap_type"))
 
 
-def extract_pdf(path: Path) -> str:
-    from pypdf import PdfReader
+def remove_attachment_extract_gap(gaps: List[Dict], att: Dict) -> List[Dict]:
+    return [
+        row
+        for row in gaps
+        if not (
+            row.get("gap_type") == "attachment_extract_failed"
+            and row.get("source_id") == att.get("source_id")
+            and row.get("doc_id") == att.get("attachment_id")
+            and row.get("url") == att.get("url")
+        )
+    ]
 
+
+def extract_pdf(path: Path) -> str:
+    pdftotext = shutil.which("pdftotext") or "/opt/homebrew/bin/pdftotext"
+    if Path(pdftotext).exists():
+        result = subprocess.run(
+            [pdftotext, "-layout", str(path), "-"],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        text = result.stdout.decode("utf-8", errors="replace").strip()
+        if len(text) >= 80:
+            return text
+        ocr_text = extract_pdf_ocr(path)
+        return ocr_text or text
+
+    from pypdf import PdfReader
     reader = PdfReader(str(path))
     chunks: List[str] = []
     for page in reader.pages:
         text = page.extract_text() or ""
         if text.strip():
             chunks.append(text)
+    return "\n\n".join(chunks).strip()
+
+
+def extract_pdf_ocr(path: Path) -> str:
+    pdftoppm = shutil.which("pdftoppm") or "/Users/castle/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/pdftoppm"
+    tesseract = shutil.which("tesseract") or "/opt/homebrew/bin/tesseract"
+    if not Path(pdftoppm).exists() or not Path(tesseract).exists():
+        return ""
+    chunks: List[str] = []
+    with tempfile.TemporaryDirectory() as tmp:
+        prefix = str(Path(tmp) / "page")
+        subprocess.run(
+            [pdftoppm, "-r", "200", "-png", str(path), prefix],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        for image in sorted(Path(tmp).glob("page-*.png")):
+            result = subprocess.run(
+                [tesseract, str(image), "stdout", "-l", "chi_sim+eng", "--psm", "6"],
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            text = result.stdout.decode("utf-8", errors="replace").strip()
+            if text:
+                chunks.append(text)
     return "\n\n".join(chunks).strip()
 
 
@@ -55,11 +113,103 @@ def extract_with_textutil(path: Path) -> str:
     return result.stdout.decode("utf-8", errors="replace").strip()
 
 
+def extract_xlsx(path: Path) -> str:
+    chunks: List[str] = []
+    ns = {
+        "main": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
+    }
+    with zipfile.ZipFile(path) as zf:
+        shared: List[str] = []
+        if "xl/sharedStrings.xml" in zf.namelist():
+            root = ET.fromstring(zf.read("xl/sharedStrings.xml"))
+            for si in root.findall("main:si", ns):
+                texts = [node.text or "" for node in si.findall(".//main:t", ns)]
+                shared.append("".join(texts))
+        for name in sorted(n for n in zf.namelist() if re.match(r"xl/worksheets/sheet\d+\.xml$", n)):
+            root = ET.fromstring(zf.read(name))
+            rows: List[str] = []
+            for row in root.findall(".//main:row", ns):
+                cells: List[str] = []
+                for cell in row.findall("main:c", ns):
+                    value = cell.find("main:v", ns)
+                    if value is None or value.text is None:
+                        continue
+                    text = value.text
+                    if cell.get("t") == "s":
+                        try:
+                            text = shared[int(text)]
+                        except Exception:
+                            pass
+                    cells.append(text)
+                if cells:
+                    rows.append("\t".join(cells))
+            if rows:
+                chunks.append(Path(name).stem + "\n" + "\n".join(rows))
+    return "\n\n".join(chunks).strip()
+
+
+def extract_xls(path: Path) -> str:
+    text = extract_with_textutil(path)
+    if len(text.strip()) >= 80:
+        return text
+    soffice_candidates = [
+        "/opt/homebrew/bin/soffice",
+        shutil.which("soffice") or "",
+    ]
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_path = Path(tmp)
+        last_error: Optional[Exception] = None
+        for soffice in soffice_candidates:
+            if not soffice or not Path(soffice).exists():
+                continue
+            try:
+                subprocess.run(
+                    [soffice, "--headless", "--convert-to", "csv", "--outdir", str(tmp_path), str(path)],
+                    check=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                )
+            except Exception as exc:
+                last_error = exc
+                continue
+            csv_path = tmp_path / f"{path.stem}.csv"
+            if csv_path.exists():
+                return csv_path.read_text(encoding="utf-8", errors="replace").strip()
+        if last_error:
+            raise last_error
+    return text
+
+
+def extract_zip(path: Path) -> str:
+    chunks: List[str] = []
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_path = Path(tmp)
+        with zipfile.ZipFile(path) as zf:
+            for member in zf.infolist():
+                if member.is_dir() or member.file_size == 0:
+                    continue
+                suffix = Path(member.filename).suffix.lower()
+                if suffix not in {".pdf", ".doc", ".docx", ".rtf", ".txt", ".xls", ".xlsx"}:
+                    continue
+                target = tmp_path / Path(member.filename).name
+                target.write_bytes(zf.read(member))
+                text = extract_text(target)
+                if text:
+                    chunks.append(f"{member.filename}\n{text}")
+    return "\n\n".join(chunks).strip()
+
+
 def extract_text(path: Path) -> Optional[str]:
     suffix = path.suffix.lower()
     if suffix == ".pdf":
         return extract_pdf(path)
-    if suffix in {".doc", ".docx", ".rtf", ".txt", ".xls", ".xlsx"}:
+    if suffix == ".xlsx":
+        return extract_xlsx(path)
+    if suffix == ".xls":
+        return extract_xls(path)
+    if suffix == ".zip":
+        return extract_zip(path)
+    if suffix in {".doc", ".docx", ".rtf", ".txt"}:
         return extract_with_textutil(path)
     return None
 
@@ -112,6 +262,7 @@ def main() -> int:
         if not source_path.exists():
             continue
         doc_id = f"attachment_{att['attachment_id']}"
+        att.pop("extract_error", None)
         if is_html_error_page(source_path):
             failed += 1
             att["text_extracted"] = False
@@ -155,6 +306,8 @@ def main() -> int:
             att.pop("text_path", None)
             att.pop("text_char_count", None)
             documents.pop(doc_id, None)
+            gaps = remove_attachment_extract_gap(gaps, att)
+            gap_keys = {gap_key(row) for row in gaps}
             gap = {
                 "source_id": att.get("source_id"),
                 "doc_id": att.get("attachment_id"),
@@ -174,6 +327,8 @@ def main() -> int:
         att["text_path"] = str(text_path.relative_to(ROOT))
         att["text_char_count"] = len(text)
         extracted += 1
+        gaps = remove_attachment_extract_gap(gaps, att)
+        gap_keys = {gap_key(row) for row in gaps}
 
         documents[doc_id] = {
             "doc_id": doc_id,

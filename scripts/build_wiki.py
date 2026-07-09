@@ -2,6 +2,7 @@
 """Generate Obsidian-friendly Wiki pages from registry and processed indexes."""
 
 import collections
+import datetime as dt
 import json
 from pathlib import Path
 from typing import Dict, Iterable
@@ -31,15 +32,17 @@ def md_link(title: str, url: str) -> str:
     return f"[{title}]({url})" if url else title
 
 
-def write_home(docs_count: int, clauses_count: int, gaps_count: int) -> None:
+def write_home(raw_docs_count: int, regulatory_docs_count: int, clauses_count: int, gaps_count: int) -> None:
     evidence_count = sum(1 for _ in iter_jsonl(PROCESSED / "evidence_ledger.jsonl"))
+    today = dt.date.today().isoformat()
     text = f"""# 金融监管法规知识库
 
-更新时间：2026-07-07
+更新时间：{today}
 
 ## 当前状态
 
-- 文档级索引：{docs_count} 条
+- 原始文档索引：{raw_docs_count} 条
+- 监管语料索引：{regulatory_docs_count} 条
 - 条款级切片：{clauses_count} 条
 - 已核验证据：{evidence_count} 条
 - 待处理缺口：{gaps_count} 条
@@ -84,7 +87,7 @@ def write_docs_index(docs: list) -> None:
     lines = ["# 法规条目索引", ""]
     for source_id in sorted(by_source):
         lines.extend([f"## {source_id}", "", "| 标题 | 发布主体 | 发布日期 | 正文 | 原始链接 |", "|---|---|---:|---|---|"])
-        for doc in sorted(by_source[source_id], key=lambda d: (d.get("published_at") or "", d.get("title") or ""), reverse=True)[:300]:
+        for doc in sorted(by_source[source_id], key=lambda d: (d.get("published_at") or "", d.get("title") or ""), reverse=True):
             lines.append(
                 "| {title} | {publisher} | {date} | {body} | {url} |".format(
                     title=(doc.get("title") or "").replace("|", "/")[:120],
@@ -209,19 +212,22 @@ def write_gaps(gaps: list) -> None:
 def main() -> int:
     WIKI.mkdir(parents=True, exist_ok=True)
     registry = load_registry()
-    docs = list(iter_jsonl(PROCESSED / "documents.jsonl"))
+    raw_docs = list(iter_jsonl(PROCESSED / "documents.jsonl"))
+    docs = list(iter_jsonl(PROCESSED / "regulatory_documents.jsonl"))
+    if not docs:
+        docs = raw_docs
     clauses = list(iter_jsonl(PROCESSED / "clauses.jsonl"))
     gaps = list(iter_jsonl(PROCESSED / "gaps.jsonl"))
     evidence = list(iter_jsonl(PROCESSED / "evidence_ledger.jsonl"))
 
-    write_home(len(docs), len(clauses), len(gaps))
+    write_home(len(raw_docs), len(docs), len(clauses), len(gaps))
     write_sources(registry)
     write_docs_index(docs)
     write_evidence_ledger(evidence)
     write_clause_explainer(len(clauses))
     write_otc_framework()
     write_gaps(gaps)
-    print(f"wiki_pages=7 docs={len(docs)} clauses={len(clauses)} evidence={len(evidence)} gaps={len(gaps)}")
+    print(f"wiki_pages=7 raw_docs={len(raw_docs)} regulatory_docs={len(docs)} clauses={len(clauses)} evidence={len(evidence)} gaps={len(gaps)}")
     return 0
 
 

@@ -1,0 +1,242 @@
+{
+  "documents": [
+    {
+      "doc_id": "manual_dce_2bf353fe9dfc",
+      "raw_path": "data/raw/files/manual_regulatory/manual_dce_2bf353fe9dfc.docx",
+      "source_id": "dce",
+      "text_char_count": 10675,
+      "text_path": "data/raw/text/manual_regulatory/manual_dce_2bf353fe9dfc.txt",
+      "title": "大连商品交易所交易规则"
+    },
+    {
+      "doc_id": "manual_dce_8d1d00f434ff",
+      "raw_path": "data/raw/files/manual_regulatory/manual_dce_8d1d00f434ff.docx",
+      "source_id": "dce",
+      "text_char_count": 17002,
+      "text_path": "data/raw/text/manual_regulatory/manual_dce_8d1d00f434ff.txt",
+      "title": "大连商品交易所结算管理办法"
+    },
+    {
+      "doc_id": "manual_dce_04b4ea1f4f16",
+      "raw_path": "data/raw/files/manual_regulatory/manual_dce_04b4ea1f4f16.docx",
+      "source_id": "dce",
+      "text_char_count": 12049,
+      "text_path": "data/raw/text/manual_regulatory/manual_dce_04b4ea1f4f16.txt",
+      "title": "大连商品交易所风险管理办法"
+    },
+    {
+      "doc_id": "manual_dce_c4d50804ddd8",
+      "raw_path": "data/raw/files/manual_regulatory/manual_dce_c4d50804ddd8.docx",
+      "source_id": "dce",
+      "text_char_count": 14460,
+      "text_path": "data/raw/text/manual_regulatory/manual_dce_c4d50804ddd8.txt",
+      "title": "大连商品交易所交割管理办法"
+    },
+    {
+      "doc_id": "manual_dce_645040ee3f9a",
+      "raw_path": "data/raw/files/manual_regulatory/manual_dce_645040ee3f9a.docx",
+      "source_id": "dce",
+      "text_char_count": 6206,
+      "text_path": "data/raw/text/manual_regulatory/manual_dce_645040ee3f9a.txt",
+      "title": "大连商品交易所标准仓单管理办法"
+    },
+    {
+      "doc_id": "manual_dce_fd1657be999e",
+      "raw_path": "data/raw/files/manual_regulatory/manual_dce_fd1657be999e.docx",
+      "source_id": "dce",
+      "text_char_count": 3834,
+      "text_path": "data/raw/text/manual_regulatory/manual_dce_fd1657be999e.txt",
+      "title": "大连商品交易所套期保值管理办法"
+    },
+    {
+      "doc_id": "manual_dce_f15866c5e0f8",
+      "raw_path": "data/raw/files/manual_regulatory/manual_dce_f15866c5e0f8.docx",
+      "source_id": "dce",
+      "text_char_count": 8241,
+      "text_path": "data/raw/text/manual_regulatory/manual_dce_f15866c5e0f8.txt",
+      "title": "大连商品交易所期权交易管理办法"
+    },
+    {
+      "doc_id": "manual_dce_738de071bc16",
+      "raw_path": "data/raw/files/manual_regulatory/manual_dce_738de071bc16.docx",
+      "source_id": "dce",
+      "text_char_count": 12732,
+      "text_path": "data/raw/text/manual_regulatory/manual_dce_738de071bc16.txt",
+      "title": "大连商品交易所违规处理办法"
+    },
+    {
+      "doc_id": "manual_dce_f4077ef2fadd",
+      "raw_path": "data/raw/files/manual_regulatory/manual_dce_f4077ef2fadd.docx",
+      "source_id": "dce",
+      "text_char_count": 3306,
+      "text_path": "data/raw/text/manual_regulatory/manual_dce_f4077ef2fadd.txt",
+      "title": "大连商品交易所异常交易行为管理办法"
+    },
+    {
+      "doc_id": "manual_gfex_829335cb044f",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_829335cb044f.docx",
+      "source_id": "gfex",
+      "text_char_count": 9672,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_829335cb044f.txt",
+      "title": "广州期货交易所交易规则"
+    },
+    {
+      "doc_id": "manual_gfex_42876962c941",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_42876962c941.docx",
+      "source_id": "gfex",
+      "text_char_count": 7861,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_42876962c941.txt",
+      "title": "广州期货交易所交易管理办法"
+    },
+    {
+      "doc_id": "manual_gfex_99bf5b8bdcbf",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_99bf5b8bdcbf.docx",
+      "source_id": "gfex",
+      "text_char_count": 16066,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_99bf5b8bdcbf.txt",
+      "title": "广州期货交易所结算管理办法"
+    },
+    {
+      "doc_id": "manual_gfex_73aef64e7a96",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_73aef64e7a96.docx",
+      "source_id": "gfex",
+      "text_char_count": 11890,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_73aef64e7a96.txt",
+      "title": "广州期货交易所风险管理办法"
+    },
+    {
+      "doc_id": "manual_gfex_a2db9ae88502",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_a2db9ae88502.docx",
+      "source_id": "gfex",
+      "text_char_count": 6130,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_a2db9ae88502.txt",
+      "title": "广州期货交易所交割管理办法"
+    },
+    {
+      "doc_id": "manual_gfex_c057a47d90f3",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_c057a47d90f3.docx",
+      "source_id": "gfex",
+      "text_char_count": 5207,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_c057a47d90f3.txt",
+      "title": "广州期货交易所标准仓单管理办法"
+    },
+    {
+      "doc_id": "manual_gfex_5c2b06eb0d25",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_5c2b06eb0d25.docx",
+      "source_id": "gfex",
+      "text_char_count": 12566,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_5c2b06eb0d25.txt",
+      "title": "广州期货交易所违规处理办法"
+    },
+    {
+      "doc_id": "manual_gfex_cb883588f46a",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_cb883588f46a.docx",
+      "source_id": "gfex",
+      "text_char_count": 3834,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_cb883588f46a.txt",
+      "title": "广州期货交易所套期保值管理办法"
+    },
+    {
+      "doc_id": "manual_gfex_ff629a4ffe6e",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_ff629a4ffe6e.docx",
+      "source_id": "gfex",
+      "text_char_count": 7035,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_ff629a4ffe6e.txt",
+      "title": "广州期货交易所工业硅期货、期权业务细则"
+    },
+    {
+      "doc_id": "manual_gfex_65bfc9bdf48c",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_65bfc9bdf48c.docx",
+      "source_id": "gfex",
+      "text_char_count": 2267,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_65bfc9bdf48c.txt",
+      "title": "广州期货交易所碳酸锂期货、期权业务细则"
+    },
+    {
+      "doc_id": "manual_gfex_f9be86587f65",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_f9be86587f65.docx",
+      "source_id": "gfex",
+      "text_char_count": 6744,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_f9be86587f65.txt",
+      "title": "广州期货交易所多晶硅期货、期权业务细则"
+    },
+    {
+      "doc_id": "manual_gfex_bc938dca7a1e",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_bc938dca7a1e.docx",
+      "source_id": "gfex",
+      "text_char_count": 5671,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_bc938dca7a1e.txt",
+      "title": "广州期货交易所铂期货、期权业务细则"
+    },
+    {
+      "doc_id": "manual_gfex_f84f5cf8f9d6",
+      "raw_path": "data/raw/files/manual_regulatory/manual_gfex_f84f5cf8f9d6.docx",
+      "source_id": "gfex",
+      "text_char_count": 5671,
+      "text_path": "data/raw/text/manual_regulatory/manual_gfex_f84f5cf8f9d6.txt",
+      "title": "广州期货交易所钯期货、期权业务细则"
+    },
+    {
+      "doc_id": "manual_czce_2ec3705e05a6",
+      "raw_path": "data/raw/files/manual_regulatory/manual_czce_2ec3705e05a6.docx",
+      "source_id": "czce",
+      "text_char_count": 5973,
+      "text_path": "data/raw/text/manual_regulatory/manual_czce_2ec3705e05a6.txt",
+      "title": "郑州商品交易所期货交易管理办法"
+    },
+    {
+      "doc_id": "csrc_neris_ebb03143c7f7",
+      "raw_path": "data/raw/files/manual_regulatory/csrc_neris_ebb03143c7f7.docx",
+      "source_id": "csrc",
+      "text_char_count": 2415,
+      "text_path": "data/raw/text/manual_regulatory/csrc_neris_ebb03143c7f7.txt",
+      "title": "衍生品交易业务风险揭示书（参考范本）"
+    },
+    {
+      "doc_id": "bse_200024254",
+      "raw_path": "data/raw/files/manual_regulatory/bse_200024254.docx",
+      "source_id": "bse",
+      "text_char_count": 32150,
+      "text_path": "data/raw/text/manual_regulatory/bse_200024254.txt",
+      "title": "中华人民共和国公司法"
+    },
+    {
+      "doc_id": "bse_200024260",
+      "raw_path": "data/raw/files/manual_regulatory/bse_200024260.pdf",
+      "source_id": "bse",
+      "text_char_count": 34800,
+      "text_path": "data/raw/text/manual_regulatory/bse_200024260.txt",
+      "title": "中华人民共和国证券法"
+    },
+    {
+      "doc_id": "csrc_neris_6f04500ce4fa",
+      "raw_path": "data/raw/files/manual_regulatory/csrc_neris_6f04500ce4fa.pdf",
+      "source_id": "csrc",
+      "text_char_count": 18883,
+      "text_path": "data/raw/text/manual_regulatory/csrc_neris_6f04500ce4fa.txt",
+      "title": "中国企业境外可持续基础设施项目实施指引"
+    },
+    {
+      "doc_id": "csrc_neris_22b2113a597b",
+      "raw_path": "data/raw/files/manual_regulatory/csrc_neris_22b2113a597b.pdf",
+      "source_id": "csrc",
+      "text_char_count": 17342,
+      "text_path": "data/raw/text/manual_regulatory/csrc_neris_22b2113a597b.txt",
+      "title": "中国企业境外可持续基础设施项目评价规范"
+    },
+    {
+      "doc_id": "csrc_neris_298ffeb175d3",
+      "raw_path": "data/raw/files/manual_regulatory/csrc_neris_298ffeb175d3.pdf",
+      "source_id": "csrc",
+      "text_char_count": 11890,
+      "text_path": "data/raw/text/manual_regulatory/csrc_neris_298ffeb175d3.txt",
+      "title": "期货公司财务处理实施细则"
+    }
+  ],
+  "imported_at": "2026-07-09T13:33:54+08:00",
+  "imported_count": 29,
+  "input_dir": "/Users/castle/C盘/常用/以往实习梳理/华泰金创产品/监管文件",
+  "resolved_gaps_count": 9,
+  "resolved_gaps_this_run": 0,
+  "skipped": []
+}
