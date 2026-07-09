@@ -6,34 +6,151 @@
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
+
   body {
-    @apply bg-slate-50 text-slate-900;
+    @apply bg-surface text-ink;
+    font-family: -apple-system, PingFang SC, Microsoft YaHei, Helvetica Neue, Arial, sans-serif;
+  }
+
+  ::selection {
+    @apply bg-accent/15 text-ink;
   }
 }
 
+/* ── Scrollbar ── */
 @layer components {
-  .hidden-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
   }
-  .hidden-scrollbar::-webkit-scrollbar {
-    display: none;
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+
+  .scrollbar-thin-dark {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+  }
+
+  .scrollbar-thin-dark::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin-dark::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin-dark::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+  }
+
+  .scrollbar-thin-dark::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* ── Transitions ── */
+  .transition-base {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  /* ── Markdown content inside answer cards ── */
+  .md-content h1,
+  .md-content h2,
+  .md-content h3 {
+    @apply font-semibold text-ink;
+  }
+
+  .md-content h2 {
+    @apply mt-4 mb-2 text-base;
+  }
+
+  .md-content h3 {
+    @apply mt-3 mb-1.5 text-sm;
+  }
+
+  .md-content p {
+    @apply mb-2 text-sm leading-6 text-ink-secondary;
+  }
+
+  .md-content ul,
+  .md-content ol {
+    @apply mb-2 pl-5 text-sm leading-6 text-ink-secondary;
+  }
+
+  .md-content ul {
+    @apply list-disc;
+  }
+
+  .md-content ol {
+    @apply list-decimal;
+  }
+
+  .md-content li {
+    @apply mb-1;
+  }
+
+  .md-content a {
+    @apply text-accent underline underline-offset-2 decoration-accent/30 hover:decoration-accent/70 transition;
+  }
+
+  .md-content code {
+    @apply rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-slate-800;
+  }
+
+  .md-content blockquote {
+    @apply border-l-2 border-slate-200 pl-3 text-ink-secondary italic;
+  }
+
+  .md-content table {
+    @apply w-full border-collapse text-sm;
+  }
+
+  .md-content th {
+    @apply border-b border-slate-200 px-3 py-2 text-left font-semibold text-ink;
+  }
+
+  .md-content td {
+    @apply border-b border-slate-100 px-3 py-2 text-ink-secondary;
+  }
+
+  /* ── Print styles ── */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+
+    body {
+      @apply bg-white text-black;
+    }
+
+    .break-inside-avoid {
+      break-inside: avoid;
+    }
   }
 }
 
-/* Typing animation */
-.thinking-bubble-dot {
-  display: inline-block;
-  animation: thinking-bounce 1.2s infinite;
-}
-.thinking-bubble-dot:nth-child(2) {
-  animation-delay: 0.18s;
-}
-.thinking-bubble-dot:nth-child(3) {
-  animation-delay: 0.36s;
-}
-@keyframes thinking-bounce {
-  0%, 60%, 100% { opacity: 0.2; }
-  30% { opacity: 0.8; }
+/* ── Input placeholder color consistency ── */
+@layer base {
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-ink-tertiary;
+  }
 }

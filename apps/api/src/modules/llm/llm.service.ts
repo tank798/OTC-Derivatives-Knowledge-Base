@@ -84,6 +84,89 @@ export class LlmService {
     }
   }
 
+  /**
+   * Streaming chat completion. Yields content chunks as they arrive.
+   * Collect all chunks to reconstruct the full response.
+   */
+  async *streamChat(
+    systemPrompt: string,
+    userPrompt: string,
+    timeoutMs = 120000
+  ): AsyncGenerator<string, void, unknown> {
+    if (!this.apiKey) throw new Error("LLM_API_KEY is not configured");
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const body = {
+        model: this.model,
+        temperature: 0.2,
+        stream: true,
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt },
+        ],
+      };
+
+      const resp = await fetch(`${this.baseURL}/chat/completions`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
+
+      if (!resp.ok) {
+        const text = await resp.text().catch(() => "");
+        const payload = text ? JSON.parse(text) : {};
+        const msg = payload?.error?.message ?? payload?.message ?? `HTTP ${resp.status}`;
+        throw new Error(msg);
+      }
+
+      const reader = resp.body?.getReader();
+      if (!reader) throw new Error("LLM stream response has no readable body");
+
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed.startsWith("data: ")) continue;
+          const data = trimmed.slice(6);
+          if (data === "[DONE]") return;
+
+          try {
+            const parsed = JSON.parse(data);
+            const content: string | null = parsed?.choices?.[0]?.delta?.content;
+            if (typeof content === "string" && content.length > 0) {
+              yield content;
+            }
+          } catch {
+            // Skip malformed JSON lines from streaming
+          }
+        }
+      }
+    } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") {
+        throw new Error(`LLM stream request timed out after ${timeoutMs}ms`);
+      }
+      throw err;
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+
   /** Chat with tool calling support. */
   async chatWithTools(
     systemPrompt: string,

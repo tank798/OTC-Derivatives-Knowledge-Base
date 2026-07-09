@@ -52,6 +52,8 @@ export const complianceAnswerSchema = z.object({
   restrictions: z.array(z.string()),
   missingInfo: z.array(z.string()),
   manualReviewNote: z.string().optional().default(""),
+  confidenceScore: z.enum(["high", "medium", "low"]).optional().default("medium"),
+  confidenceReason: z.string().optional().default(""),
   retrievalTrace: z
     .object({
       evidenceHits: z.number(),

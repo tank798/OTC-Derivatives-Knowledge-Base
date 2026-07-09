@@ -1,5 +1,9 @@
-import { Workspace } from "../components/workspace";
+import { Workspace, WorkspaceErrorBoundary } from "../components/workspace";
 
 export default function HomePage() {
-  return <Workspace />;
+  return (
+    <WorkspaceErrorBoundary>
+      <Workspace />
+    </WorkspaceErrorBoundary>
+  );
 }
